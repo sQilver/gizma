@@ -4,6 +4,8 @@ class Worker
 
   def initialize(bot, message)
     $status = STATUS_FREE
+    $positions = {}
+
     @bot = bot
     @message = message
   end
@@ -13,9 +15,9 @@ class Worker
 
     Thread.new do
       loop do
-        sleep 60
-
+        sleep 1
         dota_manager.execute
+        selenium_manager(bot, message).execute
 
         break if status_free?
       end
@@ -50,5 +52,9 @@ class Worker
 
   def dota_manager
     @dota_manager ||= Dota2::Manager.new
+  end
+
+  def selenium_manager(bot, message)
+    @selenium_manager ||= Selenium::Manager.new(bot, message)
   end
 end
