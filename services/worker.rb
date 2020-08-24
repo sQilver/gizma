@@ -2,8 +2,10 @@ class Worker
   STATUS_FREE = 'free'.freeze
   STATUS_BUSY = 'busy'.freeze
 
-  def initialize
+  def initialize(bot, message)
     $status = STATUS_FREE
+    @bot = bot
+    @message = message
   end
 
   def run
@@ -11,7 +13,10 @@ class Worker
 
     Thread.new do
       loop do
-        # Here will be logic code
+        sleep 60
+
+        dota_manager.execute
+
         break if status_free?
       end
 
@@ -33,5 +38,17 @@ class Worker
 
   def busy?
     $status == STATUS_BUSY
+  end
+
+  private
+
+  attr_reader :bot, :message
+
+  def send_message(text)
+    bot.api.send_message(chat_id: message.chat.id, text: text)
+  end
+
+  def dota_manager
+    @dota_manager ||= Dota2::Manager.new
   end
 end

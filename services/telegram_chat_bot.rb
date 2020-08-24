@@ -1,7 +1,9 @@
 class TelegramChatBot
   def run
-    Telegram::Bot::Client.run(ENV['HIDE_TOKEN']) do |bot|
+    Telegram::Bot::Client.run(ENV['TELEGRAM_TOKEN']) do |bot|
       bot.listen do |message|
+        worker = create_worker(bot, message)
+
         case message
         when Telegram::Bot::Types::Message
           if message.text == 'start'
@@ -41,11 +43,11 @@ class TelegramChatBot
 
         when Telegram::Bot::Types::CallbackQuery
           if message.data == 'Inline Button 1_callback'
-            bot.api.send_message(chat_id: message.from.id, text: "Responce text for Inline Button 1")
+            bot.api.send_message(chat_id: message.from.id, text: 'Responce text for Inline Button 1')
           elsif message.data == 'Inline Button 2_callback'
-            bot.api.send_message(chat_id: message.from.id, text: "Responce text for Keyboard Button 2")
+            bot.api.send_message(chat_id: message.from.id, text: 'Responce text for Keyboard Button 2')
           elsif message.data == 'Inline Button 3_callback'
-            bot.api.send_message(chat_id: message.from.id, text: "Responce text for Keyboard Button 3")
+            bot.api.send_message(chat_id: message.from.id, text: 'Responce text for Keyboard Button 3')
           end
         end
       end
@@ -54,8 +56,8 @@ class TelegramChatBot
 
   private
 
-  def worker
-    @worker ||= Worker.new
+  def create_worker(bot, message)
+    @worker ||= Worker.new(bot, message)
   end
 
   def render_inline_buttons
