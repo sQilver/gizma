@@ -6,13 +6,19 @@ module Selenium
       @bot = bot
       @message = message
 
-      options = Selenium::WebDriver::Chrome::Options.new
-      options.add_argument('--ignore-certificate-errors')
-      options.add_argument('--disable-popup-blocking')
-      options.add_argument('--disable-translate')
-      options.add_argument('--blink-settings=imagesEnabled=false') # disable images and videos
-      options.add_argument('--headless')
-      @driver = Selenium::WebDriver.for :chrome, options: options
+      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+        { 'chrome.switches' => %w[--ignore-certificate-errors],
+          chromeOptions: { args: %w[headless disable-gpu disable-popup-blocking no-sandbox window-size=1920x1920] } } )
+
+      @driver = Selenium::WebDriver.for :chrome, desired_capabilities: capabilities
+
+      # options = Selenium::WebDriver::Chrome::Options.new
+      # options.add_argument('--ignore-certificate-errors')
+      # options.add_argument('--disable-popup-blocking')
+      # options.add_argument('--disable-translate')
+      # options.add_argument('--blink-settings=imagesEnabled=false') # disable images and videos
+      # options.add_argument('--headless')
+      # @driver = Selenium::WebDriver.for :chrome, options: options
     end
 
     def execute
