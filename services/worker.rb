@@ -16,7 +16,7 @@ class Worker
 
     Thread.new do
       loop do
-        sleep 10
+        sleep 30
         dota_manager.execute
         selenium_manager(bot, message).execute
 

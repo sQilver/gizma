@@ -1,24 +1,11 @@
-require 'selenium-webdriver'
-
 module Selenium
   class Manager
     def initialize(bot, message)
       @bot = bot
       @message = message
 
-      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        { 'chrome.switches' => %w[--ignore-certificate-errors],
-          chromeOptions: { args: %w[headless disable-gpu disable-popup-blocking no-sandbox window-size=1920x1920] } } )
-
-      @driver = Selenium::WebDriver.for :chrome, desired_capabilities: capabilities
-
-      # options = Selenium::WebDriver::Chrome::Options.new
-      # options.add_argument('--ignore-certificate-errors')
-      # options.add_argument('--disable-popup-blocking')
-      # options.add_argument('--disable-translate')
-      # options.add_argument('--blink-settings=imagesEnabled=false') # disable images and videos
-      # options.add_argument('--headless')
-      # @driver = Selenium::WebDriver.for :chrome, options: options
+      options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+      @driver = Selenium::WebDriver.for :firefox, options: options
     end
 
     def execute
@@ -39,11 +26,16 @@ module Selenium
       for_line_text   = driver.find_element(xpath: '//*[@id="index"]/table/tbody/tr[5]/td[2]/a[3]').text
       five_line_text  = driver.find_element(xpath: '//*[@id="index"]/table/tbody/tr[6]/td[2]/a[3]').text
 
-      send_message("New 1 rutor position: #{first_line_text}") if $rutor_positions[1] != first_line_text
-      send_message("New 2 rutor position: #{two_line_text}")   if $rutor_positions[2] != two_line_text
-      send_message("New 3 rutor position: #{three_line_text}") if $rutor_positions[3] != three_line_text
-      send_message("New 4 rutor position: #{for_line_text}")   if $rutor_positions[4] != for_line_text
-      send_message("New 5 rutor position: #{five_line_text}")  if $rutor_positions[5] != five_line_text
+      rutor_all_title_list = []
+      $rutor_positions.each do |position, text|
+        rutor_all_title_list << text
+      end
+
+      send_message("New 1 rutor position: #{first_line_text}") unless rutor_all_title_list.include?(first_line_text)
+      send_message("New 2 rutor position: #{two_line_text}")   unless rutor_all_title_list.include?(two_line_text)
+      send_message("New 3 rutor position: #{three_line_text}") unless rutor_all_title_list.include?(three_line_text)
+      send_message("New 4 rutor position: #{for_line_text}")   unless rutor_all_title_list.include?(for_line_text)
+      send_message("New 5 rutor position: #{five_line_text}")  unless rutor_all_title_list.include?(five_line_text)
 
       $rutor_positions[1] = first_line_text
       $rutor_positions[2] = two_line_text
@@ -61,11 +53,16 @@ module Selenium
       for_line_text   = driver.find_element(xpath: "(//yt-formatted-string[@class='style-scope ytd-video-renderer'])[7]").text
       five_line_text  = driver.find_element(xpath: "(//yt-formatted-string[@class='style-scope ytd-video-renderer'])[9]").text
 
-      send_message("New 1 youtube position: #{first_line_text}") if $youtube_positions[1] != first_line_text
-      send_message("New 2 youtube position: #{two_line_text}")   if $youtube_positions[2] != two_line_text
-      send_message("New 3 youtube position: #{three_line_text}") if $youtube_positions[3] != three_line_text
-      send_message("New 4 youtube position: #{for_line_text}")   if $youtube_positions[4] != for_line_text
-      send_message("New 5 youtube position: #{five_line_text}")  if $youtube_positions[5] != five_line_text
+      youtube_all_title_list = []
+      $youtube_positions.each do |position, text|
+        youtube_all_title_list << text
+      end
+
+      send_message("New 1 youtube position: #{first_line_text}") unless youtube_all_title_list.include?(first_line_text)
+      send_message("New 2 youtube position: #{two_line_text}")   unless youtube_all_title_list.include?(two_line_text)
+      send_message("New 3 youtube position: #{three_line_text}") unless youtube_all_title_list.include?(three_line_text)
+      send_message("New 4 youtube position: #{for_line_text}")   unless youtube_all_title_list.include?(for_line_text)
+      send_message("New 5 youtube position: #{five_line_text}")  unless youtube_all_title_list.include?(five_line_text)
 
       $youtube_positions[1] = first_line_text
       $youtube_positions[2] = two_line_text
