@@ -26,22 +26,25 @@ module Selenium
       for_line_text   = driver.find_element(xpath: '//*[@id="index"]/table/tbody/tr[5]/td[2]/a[3]').text
       five_line_text  = driver.find_element(xpath: '//*[@id="index"]/table/tbody/tr[6]/td[2]/a[3]').text
 
-      rutor_all_title_list = []
-      $rutor_positions.each do |position, text|
-        rutor_all_title_list << text
-      end
+      old_positions = $rutor_positions[:old_positions]
 
-      send_message("New 1 rutor position: #{first_line_text}") unless rutor_all_title_list.include?(first_line_text)
-      send_message("New 2 rutor position: #{two_line_text}")   unless rutor_all_title_list.include?(two_line_text)
-      send_message("New 3 rutor position: #{three_line_text}") unless rutor_all_title_list.include?(three_line_text)
-      send_message("New 4 rutor position: #{for_line_text}")   unless rutor_all_title_list.include?(for_line_text)
-      send_message("New 5 rutor position: #{five_line_text}")  unless rutor_all_title_list.include?(five_line_text)
+      send_message("New 1 rutor position: #{first_line_text}") unless old_positions.include?(first_line_text)
+      send_message("New 2 rutor position: #{two_line_text}")   unless old_positions.include?(two_line_text)
+      send_message("New 3 rutor position: #{three_line_text}") unless old_positions.include?(three_line_text)
+      send_message("New 4 rutor position: #{for_line_text}")   unless old_positions.include?(for_line_text)
+      send_message("New 5 rutor position: #{five_line_text}")  unless old_positions.include?(five_line_text)
 
       $rutor_positions[1] = first_line_text
       $rutor_positions[2] = two_line_text
       $rutor_positions[3] = three_line_text
       $rutor_positions[4] = for_line_text
       $rutor_positions[5] = five_line_text
+
+      $rutor_positions[:old_positions] << first_line_text unless $rutor_positions[:old_positions].include?(first_line_text)
+      $rutor_positions[:old_positions] << two_line_text unless $rutor_positions[:old_positions].include?(two_line_text)
+      $rutor_positions[:old_positions] << three_line_text unless $rutor_positions[:old_positions].include?(three_line_text)
+      $rutor_positions[:old_positions] << for_line_text unless $rutor_positions[:old_positions].include?(for_line_text)
+      $rutor_positions[:old_positions] << five_line_text unless $rutor_positions[:old_positions].include?(five_line_text)
     end
 
     def check_youtube
@@ -53,22 +56,25 @@ module Selenium
       for_line_text   = driver.find_element(xpath: "(//yt-formatted-string[@class='style-scope ytd-video-renderer'])[7]").text
       five_line_text  = driver.find_element(xpath: "(//yt-formatted-string[@class='style-scope ytd-video-renderer'])[9]").text
 
-      youtube_all_title_list = []
-      $youtube_positions.each do |position, text|
-        youtube_all_title_list << text
-      end
+      old_positions = $youtube_positions[:old_positions]
 
-      send_message("New 1 youtube position: #{first_line_text}") unless youtube_all_title_list.include?(first_line_text)
-      send_message("New 2 youtube position: #{two_line_text}")   unless youtube_all_title_list.include?(two_line_text)
-      send_message("New 3 youtube position: #{three_line_text}") unless youtube_all_title_list.include?(three_line_text)
-      send_message("New 4 youtube position: #{for_line_text}")   unless youtube_all_title_list.include?(for_line_text)
-      send_message("New 5 youtube position: #{five_line_text}")  unless youtube_all_title_list.include?(five_line_text)
+      send_message("New 1 youtube position: #{first_line_text}") unless old_positions.include?(first_line_text)
+      send_message("New 2 youtube position: #{two_line_text}")   unless old_positions.include?(two_line_text)
+      send_message("New 3 youtube position: #{three_line_text}") unless old_positions.include?(three_line_text)
+      send_message("New 4 youtube position: #{for_line_text}")   unless old_positions.include?(for_line_text)
+      send_message("New 5 youtube position: #{five_line_text}")  unless old_positions.include?(five_line_text)
 
       $youtube_positions[1] = first_line_text
       $youtube_positions[2] = two_line_text
       $youtube_positions[3] = three_line_text
       $youtube_positions[4] = for_line_text
       $youtube_positions[5] = five_line_text
+
+      $youtube_positions[:old_positions] << first_line_text unless $youtube_positions[:old_positions].include?(first_line_text)
+      $youtube_positions[:old_positions] << two_line_text unless $youtube_positions[:old_positions].include?(two_line_text)
+      $youtube_positions[:old_positions] << three_line_text unless $youtube_positions[:old_positions].include?(three_line_text)
+      $youtube_positions[:old_positions] << for_line_text unless $youtube_positions[:old_positions].include?(for_line_text)
+      $youtube_positions[:old_positions] << five_line_text unless $youtube_positions[:old_positions].include?(five_line_text)
     end
 
     def send_message(text)

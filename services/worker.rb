@@ -4,8 +4,8 @@ class Worker
 
   def initialize(bot, message)
     $status = STATUS_FREE
-    $rutor_positions = {}
-    $youtube_positions = {}
+    $rutor_positions = { old_positions: [] }
+    $youtube_positions = { old_positions: [] }
 
     @bot = bot
     @message = message
