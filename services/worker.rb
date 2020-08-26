@@ -12,18 +12,21 @@ class Worker
   end
 
   def run
-    $status = STATUS_BUSY
+    if status_free?
 
-    Thread.new do
-      loop do
-        sleep 30
-        dota_manager.execute
-        selenium_manager(bot, message).execute
+      Thread.new do
+        $status = STATUS_BUSY
 
-        break if status_free?
+        loop do
+          sleep 30
+          dota_manager.execute
+          selenium_manager(bot, message).execute
+
+          break if status_free?
+        end
+
+        $status = STATUS_FREE
       end
-
-      $status = STATUS_FREE
     end
   end
 
