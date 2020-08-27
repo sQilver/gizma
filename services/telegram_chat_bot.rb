@@ -9,6 +9,18 @@ class TelegramChatBot
 
         case message
         when Telegram::Bot::Types::Message
+          unless message.photo.empty?
+            
+           
+#            file_id = message.photo.last.file_id
+            # bot.api.send_photo(chat_id: message.chat.id, photo: file_id)
+#            file_path = bot.api.get_file(file_id: file_id)["result"]["file_path"]
+#            photo_url = "https://api.telegram.org/file/bot#{ENV['TELEGRAM_TOKEN']}/#{file_path}"
+# binding.pry
+            # `sudo wget #{photo_url} -P photos`
+            # "sudo -p 'sudo password: ' #{command}"            system("sudo -p 'sudo password: 12345678' wget #{photo_url} -P photos")
+          end
+
 #----------------------------------------------------------------------------------------------------------------------#
           if message.text == 'start'
             if worker.status_free?
@@ -35,8 +47,6 @@ class TelegramChatBot
             send_message('Inline buttons:', render_inline_buttons)
           elsif message.text == 'Show Origin keyboard'
             send_message('Origin keyboard:', render_origin_keyboard)
-          else
-            send_message('Hi!')
           end
 #----------------------------------------------------------------------------------------------------------------------#
         when Telegram::Bot::Types::CallbackQuery
