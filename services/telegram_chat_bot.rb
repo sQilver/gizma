@@ -13,7 +13,7 @@ class TelegramChatBot
           if message.text == 'start'
             if worker.status_free?
               worker.run
-              send_message("Worker started, status: #{worker.status}")
+              send_message("Worker started!")
             else
               send_message("Worker is busy, status: #{worker.status}")
             end
@@ -24,14 +24,12 @@ class TelegramChatBot
           elsif message.text == 'show status'
             send_message("Worker status: #{worker.status}")
           elsif message.text == 'show positions'
-            send_message("Positions: #{worker.status}")
+            send_message(decorator.positions)
 #----------------------------------------------------------------------------------------------------------------------#
           elsif message.text == 'reset errors'
             send_message("Current errors: #{$errors = { youtube: [], rutor: [] }}")
           elsif message.text == 'show errors'
-            send_message("Errors: \n"\
-                         "Yotube (count: #{$errors[:youtube].count},list:  #{$errors[:youtube]}) \n"\
-                         "Rutor (count: #{$errors[:rutor].count},list:  #{$errors[:rutor]})")
+            send_message(decorator.errors)
 #----------------------------------------------------------------------------------------------------------------------#
           elsif message.text == 'Show Inline buttons'
             send_message('Inline buttons:', render_inline_buttons)
@@ -79,8 +77,8 @@ class TelegramChatBot
         KeyboardButton.new('show positions').button
       ],
       [
-        KeyboardButton.new('show errors').button,
-        KeyboardButton.new('reset errors').button
+        KeyboardButton.new('reset errors').button,
+        KeyboardButton.new('show errors').button
       ],
       [
         KeyboardButton.new('Show Inline buttons').button,
@@ -96,6 +94,10 @@ class TelegramChatBot
   end
 
   def send_message(text, reply_markup = render_keyboards_buttons)
-    $bot.api.send_message(chat_id: $message.chat.id, text: text, reply_markup: reply_markup)
+    $bot.api.send_message(chat_id: $message.chat.id, text: text, reply_markup: reply_markup, parse_mode: 'Markdown')
+  end
+
+  def decorator
+    @decorator ||= Decorator.new
   end
 end
