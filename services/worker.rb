@@ -6,6 +6,7 @@ class Worker
     $status = STATUS_FREE
     $rutor_positions = { old_positions: [] }
     $youtube_positions = { old_positions: [] }
+    $errors = { youtube: [], rutor: [] }
 
     @bot = bot
     @message = message
@@ -18,7 +19,7 @@ class Worker
         $status = STATUS_BUSY
 
         loop do
-          sleep 30
+          sleep 60
           dota_manager.execute
           selenium_manager(bot, message).execute
 

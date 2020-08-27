@@ -45,7 +45,8 @@ module Selenium
       $rutor_positions[:old_positions] << three_line_text unless $rutor_positions[:old_positions].include?(three_line_text)
       $rutor_positions[:old_positions] << for_line_text unless $rutor_positions[:old_positions].include?(for_line_text)
       $rutor_positions[:old_positions] << five_line_text unless $rutor_positions[:old_positions].include?(five_line_text)
-    rescue
+    rescue => error
+      $errors[:rutor] << error.inspect
     end
 
     def check_youtube
@@ -76,7 +77,8 @@ module Selenium
       $youtube_positions[:old_positions] << three_line_text unless $youtube_positions[:old_positions].include?(three_line_text)
       $youtube_positions[:old_positions] << for_line_text unless $youtube_positions[:old_positions].include?(for_line_text)
       $youtube_positions[:old_positions] << five_line_text unless $youtube_positions[:old_positions].include?(five_line_text)
-    rescue
+    rescue => error
+      $errors[:youtube] << error.inspect
     end
 
     def send_message(text)
