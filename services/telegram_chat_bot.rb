@@ -3,6 +3,7 @@ class TelegramChatBot
     Telegram::Bot::Client.run(ENV['TELEGRAM_TOKEN']) do |bot|
       bot.listen do |message|
         worker = create_worker(bot, message)
+        worker.run
 
         $bot = bot
         $message = message
