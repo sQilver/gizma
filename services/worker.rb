@@ -6,7 +6,7 @@ class Worker
     $status = STATUS_FREE
     $rutor_positions = { old_positions: [] }
     $youtube_positions = { old_positions: [] }
-    $errors = { youtube: [], rutor: [] }
+    $errors = { youtube: [], rutor: [], reconnect: [] }
 
     @bot = bot
     @message = message

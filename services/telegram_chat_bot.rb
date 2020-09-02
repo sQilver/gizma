@@ -57,6 +57,12 @@ class TelegramChatBot
         end
       end
     end
+  rescue => error
+    $errors[:reconnect] << error.inspect
+
+    sleep 30
+    
+    retry
   end
 
   private

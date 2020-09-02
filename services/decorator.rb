@@ -25,8 +25,9 @@ class Decorator
   end
 
   def errors
-    "Errors: \n"\
-    "Yotube (count: #{$errors[:youtube].count},list:  #{$errors[:youtube]}) \n"\
-    "Rutor (count: #{$errors[:rutor].count},list:  #{$errors[:rutor]})"
+    "*Errors:*\n"\
+    "  Yotube (count: #{$errors[:youtube].count},list: #{$errors[:youtube]}) \n"\
+    "  Rutor (count: #{$errors[:rutor].count},list: #{$errors[:rutor]})"
+    "  Reconnect (count: #{$errors[:reconnect].count},list: #{$errors[:reconnect]})"
   end
 end
