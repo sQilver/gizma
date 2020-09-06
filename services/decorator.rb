@@ -25,9 +25,27 @@ class Decorator
   end
 
   def errors
-    "*Errors:*\n"\
-    "  Yotube (count: #{$errors[:youtube].count},list: #{$errors[:youtube]}) \n"\
-    "  Rutor (count: #{$errors[:rutor].count},list: #{$errors[:rutor]})\n"\
-    "  Reconnect (count: #{$errors[:reconnect].count},list: #{$errors[:reconnect]})"
+    error_list = "Error:\n"
+
+    unless $errors.empty?
+      $errors.each do |error, count|
+        error_list += "  #{error}\n  Count: #{count}\n \n"
+      end
+
+      return error_list
+    else
+      'There is no errors!'
+    end
+  end
+
+  def user_list
+    s = "User list: \n"\
+        "  "
+    
+    $user_list.each do |full_name, _chat_id|
+      s += "#{full_name}\n  "
+    end
+   
+    s
   end
 end

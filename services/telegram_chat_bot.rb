@@ -8,6 +8,9 @@ class TelegramChatBot
         $bot = bot
         $message = message
 
+        full_user_name = "#{message.chat.last_name} #{message.chat.first_name}"
+
+
         case message
         when Telegram::Bot::Types::Message
           unless message.photo.empty?
@@ -23,43 +26,58 @@ class TelegramChatBot
           if message.text == 'start'
             if worker.status_free?
               worker.run
-              send_message("Worker started!")
+              message_sender.send("Worker started!")
             else
-              send_message("Worker is busy, status: #{worker.status}")
+              message_sender.send("Worker is busy, status: #{worker.status}")
             end
           elsif message.text == 'stop'
             worker.stop
-            send_message("Worker stopped, status: #{worker.status}")
+            message_sender.send("Worker stopped, status: #{worker.status}")
 
           elsif message.text == 'show status'
-            send_message("Worker status: #{worker.status}")
+            message_sender.send("Worker status: #{worker.status}")
           elsif message.text == 'show positions'
-            send_message(decorator.positions)
+            message_sender.send(decorator.positions)
 #----------------------------------------------------------------------------------------------------------------------#
           elsif message.text == 'reset errors'
-            send_message("Current errors: #{$errors = { youtube: [], rutor: [] }}")
+            message_sender.send("Current errors: #{ $errors = {} }")
           elsif message.text == 'show errors'
-            send_message(decorator.errors)
+            message_sender.send(decorator.errors)
 #----------------------------------------------------------------------------------------------------------------------#
-          elsif message.text == 'Show Inline buttons'
-            send_message('Inline buttons:', render_inline_buttons)
-          elsif message.text == 'Show Origin keyboard'
-            send_message('Origin keyboard:', render_origin_keyboard)
+          elsif message.text == 'Add me to User list'
+            if $user_list.key?(full_user_name)
+
+              message_sender.send("User #{full_user_name} exist in list!")
+            else
+              $user_list[full_user_name] = message.chat.id.to_s
+
+              message_sender.send("User #{full_user_name} added to list!")
+            end
+          
+          elsif message.text == 'Show User list'
+            message_sender.send(decorator.user_list)
           end
+
+#----------------------------------------------------------------------------------------------------------------------#
+          # elsif message.text == 'Show Inline buttons'
+          #   message_sender.send('Inline buttons:')
+          # elsif message.text == 'Show Origin keyboard'
+          #   message_sender.send('Origin keyboard:')
+          # end
 #----------------------------------------------------------------------------------------------------------------------#
         when Telegram::Bot::Types::CallbackQuery
           if message.data == 'Inline Button 1_callback'
-            bot.api.send_message(chat_id: message.from.id, text: 'Responce text for Inline Button 1')
+            message_sender.send('Responce text for Inline Button 1')
           elsif message.data == 'Inline Button 2_callback'
-            bot.api.send_message(chat_id: message.from.id, text: 'Responce text for Keyboard Button 2')
+            message_sender.send('Responce text for Keyboard Button 2')
           elsif message.data == 'Inline Button 3_callback'
-            bot.api.send_message(chat_id: message.from.id, text: 'Responce text for Keyboard Button 3')
+            message_sender.send('Responce text for Keyboard Button 3')
           end
         end
       end
     end
   rescue => error
-    $errors[:reconnect] << error.inspect
+    Error.add_error(error)
 
     sleep 30
     
@@ -72,46 +90,11 @@ class TelegramChatBot
     @worker ||= Worker.new(bot, message)
   end
 
-  def render_inline_buttons
-    buttons = [
-      InlineButton.new('Inline Button 1').button,
-      InlineButton.new('Inline Button 2').button,
-      InlineButton.new('Inline Button 3').button
-    ]
-
-    Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: buttons)
-  end
-
-  def render_keyboards_buttons
-    buttons = [
-      [
-        KeyboardButton.new('start').button,
-        KeyboardButton.new('stop').button,
-        KeyboardButton.new('show status').button,
-        KeyboardButton.new('show positions').button
-      ],
-      [
-        KeyboardButton.new('reset errors').button,
-        KeyboardButton.new('show errors').button
-      ],
-      [
-        KeyboardButton.new('Show Inline buttons').button,
-        KeyboardButton.new('Show Origin keyboard').button
-      ]
-    ]
-
-    Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: buttons, resize_keyboard: true)
-  end
-
-  def render_origin_keyboard
-    Telegram::Bot::Types::ReplyKeyboardRemove.new(remove_keyboard: true)
-  end
-
-  def send_message(text, reply_markup = render_keyboards_buttons)
-    $bot.api.send_message(chat_id: $message.chat.id, text: text, reply_markup: reply_markup, parse_mode: 'Markdown')
-  end
-
   def decorator
     @decorator ||= Decorator.new
+  end
+
+  def message_sender
+    @message_sender ||= MessageSender.new
   end
 end

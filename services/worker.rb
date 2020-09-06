@@ -4,9 +4,6 @@ class Worker
 
   def initialize(bot, message)
     $status = STATUS_FREE
-    $rutor_positions = { old_positions: [] }
-    $youtube_positions = { old_positions: [] }
-    $errors = { youtube: [], rutor: [], reconnect: [] }
 
     @bot = bot
     @message = message
@@ -20,6 +17,7 @@ class Worker
 
         loop do
           sleep 60
+
           dota_manager.execute
           selenium_manager(bot, message).execute
 
@@ -50,10 +48,6 @@ class Worker
   private
 
   attr_reader :bot, :message
-
-  def send_message(text)
-    bot.api.send_message(chat_id: message.chat.id, text: text)
-  end
 
   def dota_manager
     @dota_manager ||= Dota2::Manager.new

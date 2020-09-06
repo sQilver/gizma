@@ -28,11 +28,11 @@ module Selenium
 
       old_positions = $rutor_positions[:old_positions]
 
-      send_message("New 1 rutor position: #{first_line_text}") unless old_positions.include?(first_line_text)
-      send_message("New 2 rutor position: #{two_line_text}")   unless old_positions.include?(two_line_text)
-      send_message("New 3 rutor position: #{three_line_text}") unless old_positions.include?(three_line_text)
-      send_message("New 4 rutor position: #{for_line_text}")   unless old_positions.include?(for_line_text)
-      send_message("New 5 rutor position: #{five_line_text}")  unless old_positions.include?(five_line_text)
+      message_sender.send_for_users("New 1 rutor position: #{first_line_text}") unless old_positions.include?(first_line_text)
+      message_sender.send_for_users("New 2 rutor position: #{two_line_text}")   unless old_positions.include?(two_line_text)
+      message_sender.send_for_users("New 3 rutor position: #{three_line_text}") unless old_positions.include?(three_line_text)
+      message_sender.send_for_users("New 4 rutor position: #{for_line_text}")   unless old_positions.include?(for_line_text)
+      message_sender.send_for_users("New 5 rutor position: #{five_line_text}")  unless old_positions.include?(five_line_text)
 
       $rutor_positions[1] = first_line_text
       $rutor_positions[2] = two_line_text
@@ -40,13 +40,19 @@ module Selenium
       $rutor_positions[4] = for_line_text
       $rutor_positions[5] = five_line_text
 
+      puts "rutor first_line_text- #{first_line_text}"
+      puts "rutor two_line_text- #{two_line_text}"
+      puts "rutor three_line_text- #{three_line_text}"
+      puts "rutor for_line_text- #{for_line_text}"
+      puts "rutor five_line_text- #{five_line_text}"   
+
       $rutor_positions[:old_positions] << first_line_text unless $rutor_positions[:old_positions].include?(first_line_text)
       $rutor_positions[:old_positions] << two_line_text unless $rutor_positions[:old_positions].include?(two_line_text)
       $rutor_positions[:old_positions] << three_line_text unless $rutor_positions[:old_positions].include?(three_line_text)
       $rutor_positions[:old_positions] << for_line_text unless $rutor_positions[:old_positions].include?(for_line_text)
       $rutor_positions[:old_positions] << five_line_text unless $rutor_positions[:old_positions].include?(five_line_text)
     rescue => error
-      $errors[:rutor] << error.inspect
+      Error.add_error(error)
     end
 
     def check_youtube
@@ -60,11 +66,11 @@ module Selenium
 
       old_positions = $youtube_positions[:old_positions]
 
-      send_message("New 1 youtube position: #{first_line_text}") unless old_positions.include?(first_line_text)
-      send_message("New 2 youtube position: #{two_line_text}")   unless old_positions.include?(two_line_text)
-      send_message("New 3 youtube position: #{three_line_text}") unless old_positions.include?(three_line_text)
-      send_message("New 4 youtube position: #{for_line_text}")   unless old_positions.include?(for_line_text)
-      send_message("New 5 youtube position: #{five_line_text}")  unless old_positions.include?(five_line_text)
+      message_sender.send_for_users("New 1 youtube position: #{first_line_text}") unless old_positions.include?(first_line_text)
+      message_sender.send_for_users("New 2 youtube position: #{two_line_text}")   unless old_positions.include?(two_line_text)
+      message_sender.send_for_users("New 3 youtube position: #{three_line_text}") unless old_positions.include?(three_line_text)
+      message_sender.send_for_users("New 4 youtube position: #{for_line_text}")   unless old_positions.include?(for_line_text)
+      message_sender.send_for_users("New 5 youtube position: #{five_line_text}")  unless old_positions.include?(five_line_text)
 
       $youtube_positions[1] = first_line_text
       $youtube_positions[2] = two_line_text
@@ -72,17 +78,23 @@ module Selenium
       $youtube_positions[4] = for_line_text
       $youtube_positions[5] = five_line_text
 
+      puts "youtube first_line_text- #{first_line_text}"
+      puts "youtube two_line_text- #{two_line_text}"
+      puts "youtube three_line_text- #{three_line_text}"
+      puts "youtube for_line_text- #{for_line_text}"
+      puts "youtube five_line_text- #{five_line_text}"   
+
       $youtube_positions[:old_positions] << first_line_text unless $youtube_positions[:old_positions].include?(first_line_text)
       $youtube_positions[:old_positions] << two_line_text unless $youtube_positions[:old_positions].include?(two_line_text)
       $youtube_positions[:old_positions] << three_line_text unless $youtube_positions[:old_positions].include?(three_line_text)
       $youtube_positions[:old_positions] << for_line_text unless $youtube_positions[:old_positions].include?(for_line_text)
       $youtube_positions[:old_positions] << five_line_text unless $youtube_positions[:old_positions].include?(five_line_text)
     rescue => error
-      $errors[:youtube] << error.inspect
+      Error.add_error(error)
     end
 
-    def send_message(text)
-      bot.api.send_message(chat_id: message.chat.id, text: text)
+    def message_sender
+      @message_sender ||= MessageSender.new
     end
   end
 end
