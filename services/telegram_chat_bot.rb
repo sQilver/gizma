@@ -77,10 +77,10 @@ class TelegramChatBot
       end
     end
   rescue => error
+    $status = 'free'
+    sleep 3 # тут должно быть значение блольше 1 секунды (это интервал проверки в потоке)
     Error.add_error(error)
 
-    sleep 30
-    
     retry
   end
 

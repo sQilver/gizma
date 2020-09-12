@@ -15,5 +15,6 @@ require_all './services'
 $rutor_positions = { old_positions: [] }
 $youtube_positions = { old_positions: [] }
 $errors = {}
+$status = nil
 
-$user_list = {'Патреев Игорь' => ENV['MY_CHAT_ID']}
+$user_list = { 'Патреев Игорь' => ENV['MY_CHAT_ID'] }
