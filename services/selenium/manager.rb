@@ -51,6 +51,8 @@ module Selenium
       $rutor_positions[:old_positions] << three_line_text unless $rutor_positions[:old_positions].include?(three_line_text)
       $rutor_positions[:old_positions] << for_line_text unless $rutor_positions[:old_positions].include?(for_line_text)
       $rutor_positions[:old_positions] << five_line_text unless $rutor_positions[:old_positions].include?(five_line_text)
+
+      yml_manager.save_rutor_positions
     rescue => error
       Error.add_error(error)
     end
@@ -89,12 +91,18 @@ module Selenium
       $youtube_positions[:old_positions] << three_line_text unless $youtube_positions[:old_positions].include?(three_line_text)
       $youtube_positions[:old_positions] << for_line_text unless $youtube_positions[:old_positions].include?(for_line_text)
       $youtube_positions[:old_positions] << five_line_text unless $youtube_positions[:old_positions].include?(five_line_text)
+    
+      yml_manager.save_youtube_positions
     rescue => error
       Error.add_error(error)
     end
 
     def message_sender
       @message_sender ||= MessageSender.new
+    end
+
+    def yml_manager
+      @yml_manager ||= YmlManager.new
     end
   end
 end

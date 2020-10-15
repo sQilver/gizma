@@ -17,7 +17,7 @@ class Worker
         $status = STATUS_BUSY
 
         loop do
-          Waiter.wait_for_free_status(60)
+          Waiter.wait_for_free_status(300) # 300 - every 5 min
 
           puts 'WORKER RUN PROCESSES IN THREAD!'
 
@@ -33,7 +33,7 @@ class Worker
 
   rescue => error
     $status = 'free'
-    sleep 10 # тут должно быть значение блольше 1 секунды (это интервал проверки в потоке)
+    sleep 10 # тут должно быть значение блольше 1 секунды (это интервал проверки в потоке в методе Waiter.wait_for_free_status(60))
     Error.add_error(error)
 
     retry
