@@ -14,6 +14,8 @@ module Dota2
       response = Net::HTTP.get_response(uri)
       my_hash = JSON.parse(response.body)
       my_hash['status']['site_online']
+    rescue
+      false
     end
 
     def trade_on
