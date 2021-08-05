@@ -17,14 +17,16 @@ class Worker
         $status = STATUS_BUSY
 
         loop do
-          Waiter.wait_for_free_status(300) # 300 - every 5 min
-
-          puts 'WORKER RUN PROCESSES IN THREAD!'
+          Waiter.wait_for_free_status(10) # 300 - every 5 min
 
           break if status_free?
+          puts 'WORKER RUN PROCESSES IN THREAD!'
 
           # dota_manager.execute
-          selenium_manager(bot, message).execute
+          # selenium_manager(bot, message).execute
+          puts 'start sleep 2 sec'
+          sleep 5
+          puts 'finish sleep 2 sec'
 
           break if status_free?
         end
@@ -51,13 +53,13 @@ class Worker
     $status == STATUS_FREE
   end
 
-  def busy?
+  def status_busy?
     $status == STATUS_BUSY
   end
 
-  private
-
   attr_reader :bot, :message
+
+  private
 
   def dota_manager
     @dota_manager ||= Dota2::Manager.new
