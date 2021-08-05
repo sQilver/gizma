@@ -1,10 +1,16 @@
 class YmlManager
-	FOLDER_PATH = '/media/patron/A6ED-A40F'.freeze
+	# FOLDER_PATH = '/media/patron/A6ED-A40F'.freeze - for linux
+  FOLDER_PATH = 'C:/Users/Admin/gizma/temp'.freeze
 
   def initialize
   	@folder_path = FOLDER_PATH
 
   	create_default_files_if_not_exits
+  end
+
+  def load_all_positions
+    load_rutor_positions
+    load_youtube_positions
   end
 
   def load_rutor_positions
@@ -25,6 +31,7 @@ class YmlManager
   	full_file_path = "#{FOLDER_PATH}/youtube_positions.yml"
 
   	if File.exist?(full_file_path)
+
   	  $youtube_positions = YAML.load(File.read(full_file_path))
     end
   end

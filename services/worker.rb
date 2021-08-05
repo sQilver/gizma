@@ -11,8 +11,8 @@ class Worker
 
   def run
     if status_free?
-
       # Поток нужен для того что бы бот продолжил отвечать на сообщения и в это время выполнялось какое-то действие
+
       Thread.new do
         $status = STATUS_BUSY
 
@@ -23,7 +23,7 @@ class Worker
 
           break if status_free?
 
-          dota_manager.execute
+          # dota_manager.execute
           selenium_manager(bot, message).execute
 
           break if status_free?

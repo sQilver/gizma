@@ -45,7 +45,7 @@ module Selenium
       puts "rutor three_line_text- #{three_line_text}"
       puts "rutor for_line_text- #{for_line_text}"
       puts "rutor five_line_text- #{five_line_text}"   
-
+      
       $rutor_positions[:old_positions] << first_line_text unless $rutor_positions[:old_positions].include?(first_line_text)
       $rutor_positions[:old_positions] << two_line_text unless $rutor_positions[:old_positions].include?(two_line_text)
       $rutor_positions[:old_positions] << three_line_text unless $rutor_positions[:old_positions].include?(three_line_text)
@@ -53,11 +53,13 @@ module Selenium
       $rutor_positions[:old_positions] << five_line_text unless $rutor_positions[:old_positions].include?(five_line_text)
 
       yml_manager.save_rutor_positions
+
     rescue => error
       Error.add_error(error)
     end
 
     def check_youtube
+      
       driver.navigate.to 'https://www.youtube.com/feed/trending'
 
       first_line_text = driver.find_element(xpath: "(//yt-formatted-string[@class='style-scope ytd-video-renderer'])[1]").text
@@ -91,8 +93,9 @@ module Selenium
       $youtube_positions[:old_positions] << three_line_text unless $youtube_positions[:old_positions].include?(three_line_text)
       $youtube_positions[:old_positions] << for_line_text unless $youtube_positions[:old_positions].include?(for_line_text)
       $youtube_positions[:old_positions] << five_line_text unless $youtube_positions[:old_positions].include?(five_line_text)
-    
+      
       yml_manager.save_youtube_positions
+
     rescue => error
       Error.add_error(error)
     end

@@ -1,15 +1,15 @@
 class TelegramChatBot
   def run
+
     Telegram::Bot::Client.run(ENV['TELEGRAM_TOKEN']) do |bot|
       bot.listen do |message|
-        worker = create_worker(bot, message)
-        worker.run
-
         $bot = bot
         $message = message
 
-        full_user_name = "#{message.chat.last_name} #{message.chat.first_name}"
+        worker = create_worker(bot, message)
+        worker.run
 
+        full_user_name = "#{message.chat.last_name} #{message.chat.first_name}"
 
         case message
         when Telegram::Bot::Types::Message
