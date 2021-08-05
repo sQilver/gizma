@@ -23,10 +23,11 @@ class Worker
           puts 'WORKER RUN PROCESSES IN THREAD!'
 
           # dota_manager.execute
-          # selenium_manager(bot, message).execute
-          puts 'start sleep 2 sec'
-          sleep 5
-          puts 'finish sleep 2 sec'
+          selenium_manager(bot, message).execute
+
+          # puts 'start sleep 2 sec'
+          # sleep 5
+          # puts 'finish sleep 2 sec'
 
           break if status_free?
         end
