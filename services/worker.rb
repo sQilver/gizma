@@ -13,6 +13,8 @@ class Worker
     if status_free?
       # Поток нужен для того что бы бот продолжил отвечать на сообщения и в это время выполнялось какое-то действие
 
+      # Selenium::Manager.new(bot, message).execute
+
       Thread.new do
         $status = STATUS_BUSY
 
@@ -25,9 +27,9 @@ class Worker
           # dota_manager.execute
           selenium_manager(bot, message).execute
 
-          # puts 'start sleep 2 sec'
+          # puts 'start sleep 5 sec'
           # sleep 5
-          # puts 'finish sleep 2 sec'
+          # puts 'finish sleep 5 sec'
 
           break if status_free?
         end
@@ -58,9 +60,9 @@ class Worker
     $status == STATUS_BUSY
   end
 
-  attr_reader :bot, :message
-
   private
+
+  attr_reader :bot, :message
 
   def dota_manager
     @dota_manager ||= Dota2::Manager.new

@@ -8,3 +8,6 @@ gem 'rubocop'
 gem 'selenium-webdriver'
 gem 'telegram-bot-ruby'
 gem 'ffi'
+
+gem 'ruby-debug-ide'
+gem 'debase'

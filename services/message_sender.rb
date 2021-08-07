@@ -44,6 +44,9 @@ class MessageSender
       [
         KeyboardButton.new('Add me to User list').button,
         KeyboardButton.new('Show User list').button
+      ],
+      [
+        KeyboardButton.new('Test button').button
       ]
     ]
 
