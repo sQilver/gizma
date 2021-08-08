@@ -22,12 +22,12 @@ class YoutubeChecker < BaseWorkProcess
     $youtube_positions[4] = for_line_text
     $youtube_positions[5] = five_line_text
 
-    # puts "Youtube:\n" \
-    #        " 1: #{first_line_text}...,\n" \
-    #        " 2: #{two_line_text}...,\n" \
-    #        " 3: #{three_line_text}...,\n" \
-    #        " 4: #{for_line_text}...,\n" \
-    #        " 5: #{five_line_text}..."
+    puts "Youtube:\n" \
+           " 1: #{first_line_text}...,\n" \
+           " 2: #{two_line_text}...,\n" \
+           " 3: #{three_line_text}...,\n" \
+           " 4: #{for_line_text}...,\n" \
+           " 5: #{five_line_text}..."
 
     $youtube_positions[:old_positions] << first_line_text unless $youtube_positions[:old_positions].include?(first_line_text)
     $youtube_positions[:old_positions] << two_line_text unless $youtube_positions[:old_positions].include?(two_line_text)

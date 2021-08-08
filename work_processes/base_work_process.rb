@@ -1,6 +1,4 @@
 class BaseWorkProcess
-  attr_reader :bot, :message
-
   def message_sender
     @message_sender ||= MessageSender.new
   end
