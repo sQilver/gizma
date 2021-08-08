@@ -15,25 +15,22 @@ class Worker
 
         loop do
           # 300 - every 5 min
+
+          # Waiter.wait_for_free_status(5)
+          # test_process.call
+          # break if status_free?
+
           Waiter.wait_for_free_status(5)
-          test_process.call
-
+          rutor_checker.call
           break if status_free?
 
-          # Waiter.wait_for_free_status(5)
-          # rutor_checker.call
-
-          break if status_free?
-
-          # Waiter.wait_for_free_status(5)
-          # youtube_checker.call
-
+          Waiter.wait_for_free_status(5)
+          youtube_checker.call
           break if status_free?
 
           # Waiter.wait_for_free_status(5)
           # dota2_market_manager.update_status
-
-          break if status_free?
+          # break if status_free?
         end
 
         puts 'WORKER FINISH IN THREAD!'

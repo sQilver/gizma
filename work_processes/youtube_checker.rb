@@ -1,11 +1,6 @@
 class YoutubeChecker < BaseWorkProcess
-  def initialize(bot, message)
-    @bot = bot
-    @message = message
-  end
-
   def call
-    driver.navigate.to 'https://www.youtube.com/feed/trending'
+    $driver.navigate.to 'https://www.youtube.com/feed/trending'
 
     first_line_text = $driver.find_element(xpath: "(//yt-formatted-string[@class='style-scope ytd-video-renderer'])[1]").text
     two_line_text = $driver.find_element(xpath: "(//yt-formatted-string[@class='style-scope ytd-video-renderer'])[3]").text
@@ -27,11 +22,12 @@ class YoutubeChecker < BaseWorkProcess
     $youtube_positions[4] = for_line_text
     $youtube_positions[5] = five_line_text
 
-    puts "youtube first_line_text- #{first_line_text}"
-    puts "youtube two_line_text- #{two_line_text}"
-    puts "youtube three_line_text- #{three_line_text}"
-    puts "youtube for_line_text- #{for_line_text}"
-    puts "youtube five_line_text- #{five_line_text}"
+    # puts "Youtube:\n" \
+    #        " 1: #{first_line_text}...,\n" \
+    #        " 2: #{two_line_text}...,\n" \
+    #        " 3: #{three_line_text}...,\n" \
+    #        " 4: #{for_line_text}...,\n" \
+    #        " 5: #{five_line_text}..."
 
     $youtube_positions[:old_positions] << first_line_text unless $youtube_positions[:old_positions].include?(first_line_text)
     $youtube_positions[:old_positions] << two_line_text unless $youtube_positions[:old_positions].include?(two_line_text)
