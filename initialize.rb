@@ -10,7 +10,10 @@ require 'uri'
 require 'require_all'
 require 'selenium-webdriver'
 
+require_all './decorators'
 require_all './services'
+require_all './validators'
+require_all './work_processes'
 
 $rutor_positions = { old_positions: [] }
 $youtube_positions = { old_positions: [] }
